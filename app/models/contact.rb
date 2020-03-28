@@ -1,5 +1,7 @@
 class Contact < ApplicationRecord
-  belongs_to :kind, optional: true # Não é necessário informar o tipo de contato no POST
+  
+  belongs_to :kind, optional: true 
+  has_many :phones, dependent: :destroy
 
   def author
     "Celso Ribeiro"
