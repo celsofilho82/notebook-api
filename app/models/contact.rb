@@ -2,7 +2,7 @@ class Contact < ApplicationRecord
   belongs_to :kind, optional: true 
   # Fazendo associação has_one com address e nested para permitir criar um endereço na criação do contato
   has_one :address
-  accepts_nested_attributes_for :address, :update_only: true # Perminite somente atualizar o endereço
+  accepts_nested_attributes_for :address, update_only: true # Perminite somente atualizar o endereço
   # Fazendo associação has_many com phones e nested para permitir criar um telefone na criação do contato
   has_many :phones, dependent: :destroy
   accepts_nested_attributes_for :phones, allow_destroy: true
