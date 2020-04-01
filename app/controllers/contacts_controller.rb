@@ -15,7 +15,7 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1
   def show               # Incluindo o model kind na resposta e dicionando meta informação no json 
-    render json: @contact, include: [:kind], meta: { author: "Celso Ribeiro"}
+    render json: @contact, include: [:kind, :address, :phones], meta: { author: "Celso Ribeiro"}
   end
 
   # POST /contacts
