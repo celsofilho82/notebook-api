@@ -51,15 +51,15 @@ class ContactsController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def contact_params
-      params.require(:contact).permit(
-        :name, :email, :birthdate, :kind_id, 
-        phones_attributes: [:id, :number, :_destroy],
-        address_attributes: [:id, :city, :street]
-      )
+    # def contact_params
+    #   params.require(:contact).permit(
+    #     :name, :email, :birthdate, :kind_id, 
+    #     phones_attributes: [:id, :number, :_destroy],
+    #     address_attributes: [:id, :city, :street]
+    #   )
       
       # Usando o active model serializer para deserializar o json recebido nas requisições
       # create e update
-      # ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
     end
 end
