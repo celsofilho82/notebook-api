@@ -1,13 +1,17 @@
 class ContactSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :birthdate #:author
+  
   has_many :phones do
-    link(:related) { contact_kind_url(object.id) } 
+    link(:related) { contact_phones_url(object.id) } 
   end
-  has_one :address
+  
+  has_one :address do
+    link(:related) { contact_address_url(object.id) }
+  end
+
   belongs_to :kind do
     link(:related) { contact_kind_url(object.id) } 
   end
-    
 
   # Configurando a API para trabalhar com a especifiação JSONAPI HATEOAS
   # Esse configuração mostra o link para o documento que vai conter a json response
