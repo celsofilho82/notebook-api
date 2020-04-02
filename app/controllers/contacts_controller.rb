@@ -20,8 +20,9 @@ class ContactsController < ApplicationController
 
   # POST /contacts
   def create
+    byebug
     @contact = Contact.new(contact_params)
-
+    
     if @contact.save
       render json: @contact, status: :created, location: @contact
     else
@@ -51,14 +52,14 @@ class ContactsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def contact_params
-      # params.require(:contact).permit(
-      #   :name, :email, :birthdate, :kind_id, 
-      #   phones_attributes: [:id, :number, :_destroy],
-      #   address_attributes: [:id, :city, :street]
-      # )
+      params.require(:contact).permit(
+        :name, :email, :birthdate, :kind_id, 
+        phones_attributes: [:id, :number, :_destroy],
+        address_attributes: [:id, :city, :street]
+      )
       
       # Usando o active model serializer para deserializar o json recebido nas requisições
       # create e update
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      # ActiveModelSerializers::Deserialization.jsonapi_parse(params)
     end
 end
