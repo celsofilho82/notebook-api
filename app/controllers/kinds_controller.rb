@@ -9,6 +9,11 @@ class KindsController < ApplicationController
   # USERS = {"celso" => Digest::MD5.hexdigest(["celso","Application","secret"].join(":"))}
   # before_action :authenticate
 
+  # Autenticação baseada com Token
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  TOKEN = "c2VjcmV0MTIz"
+  before_action :authenticate
+
   before_action :set_kind, only: [:show, :update, :destroy]
 
   # GET /kinds
@@ -57,6 +62,17 @@ class KindsController < ApplicationController
     #   end
     # end
     
+    def authenticate
+      authenticate_or_request_with_http_token do |token, options|
+        # Esse código é para mitigar o "timing attacks"
+        ActiveSupport::SecurityUtils.secure_compare(
+          ::Digest::SHA256.hexdigest(token),
+          ::Digest::SHA256.hexdigest(TOKEN)
+        )      
+      end
+    end
+    
+
     # Use callbacks to share common setup or constraints between actions.
     def set_kind
       if params[:contact_id]
