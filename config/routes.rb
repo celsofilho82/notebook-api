@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Rota criada para gerar tokens JWT para os usuários da aplicação
+  resources :auths, only: [:create]
+  
   resources :kinds
   resources :contacts do
     # Rotas aninhadas no singular a ação de mostrar o recurso passa a ser do show e não do index.

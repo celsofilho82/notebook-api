@@ -9,11 +9,14 @@ class KindsController < ApplicationController
   # USERS = {"celso" => Digest::MD5.hexdigest(["celso","Application","secret"].join(":"))}
   # before_action :authenticate
 
-  # Autenticação baseada com Token
-  include ActionController::HttpAuthentication::Token::ControllerMethods
-  TOKEN = "c2VjcmV0MTIz"
-  before_action :authenticate
-
+  # # Autenticação baseada com Token
+  # include ActionController::HttpAuthentication::Token::ControllerMethods
+  # TOKEN = "c2VjcmV0MTIz"
+  
+  # # Autenticação baseado em token JWT
+  # include ActionController::HttpAuthentication::Token::ControllerMethods
+  # before_action :authenticate
+  
   before_action :set_kind, only: [:show, :update, :destroy]
 
   # GET /kinds
@@ -55,6 +58,28 @@ class KindsController < ApplicationController
 
   private
 
+  # Use callbacks to share common setup or constraints between actions.
+  def set_kind
+    if params[:contact_id]
+      @kind = Contact.find(params[:contact_id]).kind
+      return @kind
+    end
+    @kind = Kind.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def kind_params
+    params.require(:kind).permit(:description, :id)
+  end
+
+    # # Metódo usado na autenticação baseada em JWT
+    # def authenticate
+    #   authenticate_or_request_with_http_token do |token, options|
+    #     hmac_secret = 'my$ecretK3y'
+    #     decoded_token = JWT.decode token, hmac_secret, true, { algorithm: 'HS256' }
+    #   end
+    # end
+  
     # Metódo usado na autenticação básica HTTP usando algoritmo MD5
     # def authenticate
     #   authenticate_or_request_with_http_digest("Application") do |username|
@@ -62,28 +87,15 @@ class KindsController < ApplicationController
     #   end
     # end
     
-    def authenticate
-      authenticate_or_request_with_http_token do |token, options|
-        # Esse código é para mitigar o "timing attacks"
-        ActiveSupport::SecurityUtils.secure_compare(
-          ::Digest::SHA256.hexdigest(token),
-          ::Digest::SHA256.hexdigest(TOKEN)
-        )      
-      end
-    end
+    # # Metódo usado na autenticação HTTP usando o token
+    # def authenticate
+    #   authenticate_or_request_with_http_token do |token, options|
+    #     # Esse código é para mitigar o "timing attacks"
+    #     ActiveSupport::SecurityUtils.secure_compare(
+    #       ::Digest::SHA256.hexdigest(token),
+    #       ::Digest::SHA256.hexdigest(TOKEN)
+    #     )      
+    #   end
+    # end
     
-
-    # Use callbacks to share common setup or constraints between actions.
-    def set_kind
-      if params[:contact_id]
-        @kind = Contact.find(params[:contact_id]).kind
-        return @kind
-      end
-      @kind = Kind.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def kind_params
-      params.require(:kind).permit(:description, :id)
-    end
 end
