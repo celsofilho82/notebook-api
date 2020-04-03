@@ -1,4 +1,14 @@
 class KindsController < ApplicationController
+  
+  # # Autenticação básica HTTP usando algoritmo base64 
+  # include ActionController::HttpAuthentication::Basic::ControllerMethods
+  # http_basic_authenticate_with name: "celso", password: "secret"
+
+  # # Autenticação básica HPPT usando MD5
+  # include ActionController::HttpAuthentication::Digest::ControllerMethods
+  # USERS = {"celso" => Digest::MD5.hexdigest(["celso","Application","secret"].join(":"))}
+  # before_action :authenticate
+
   before_action :set_kind, only: [:show, :update, :destroy]
 
   # GET /kinds
@@ -39,6 +49,14 @@ class KindsController < ApplicationController
   end
 
   private
+
+    # Metódo usado na autenticação básica HTTP usando algoritmo MD5
+    # def authenticate
+    #   authenticate_or_request_with_http_digest("Application") do |username|
+    #     USERS[username]
+    #   end
+    # end
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_kind
       if params[:contact_id]
