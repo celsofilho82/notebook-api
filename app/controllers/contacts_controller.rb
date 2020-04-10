@@ -3,14 +3,19 @@ class ContactsController < ApplicationController
 
   # GET /contacts
   def index
-    @contacts = Contact.all
+    # Usando paginação dinamica na gem Kaminari passando por parâmetro a quantidade 
+    # de registros por página
+    @contacts = Contact.all.page(params[:page]).per(5)
 
     # Colocando [root] a raiz "contact" em cada elemento json [root: true]
     # Podemos fazer filtros mostrando somente algums dados na resposta only: [:name, :email] 
     # Adicionando uma nova informação com o método map [.map {|i| i.attributes.merge({author: "Celso"})}]
     # Podemos definir um método no model de chamar ele utilizando o simbolo :methods
     # Podemos também redefinir o método [as_json] no model
-    render json: @contacts
+    
+    # Substituir o render json pelo paginate para que a paginação aconteça através do header
+    # render json: @contacts
+    paginate json: @contacts
   end
 
   # GET /contacts/1
@@ -51,7 +56,7 @@ class ContactsController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    # def contact_params
+    def contact_params
     #   params.require(:contact).permit(
     #     :name, :email, :birthdate, :kind_id, 
     #     phones_attributes: [:id, :number, :_destroy],

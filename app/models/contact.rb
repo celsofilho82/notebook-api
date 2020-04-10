@@ -6,6 +6,9 @@ class Contact < ApplicationRecord
   # Fazendo associação has_many com phones e nested para permitir criar um telefone na criação do contato
   has_many :phones, dependent: :destroy
   accepts_nested_attributes_for :phones, allow_destroy: true
+
+  # Kaminari - mostar apenas 10 elementos por página
+  paginates_per 10
   
   # Código utilizado antes da instalação da gem active_model_serializer
   # # Redefinindo o método as_json que é utilizado por debaixo dos panos pelo [render :json] no controller

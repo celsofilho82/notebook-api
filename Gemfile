@@ -37,6 +37,12 @@ gem 'active_model_serializers', '~> 0.10.0'
 # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard
 gem 'jwt'
 
+#A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern web app frameworks and ORMs
+gem 'kaminari'
+
+#Paginate in your headers, not in your response body. This follows the proposed RFC-8288 standard for Web linking.
+gem 'api-pagination'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
