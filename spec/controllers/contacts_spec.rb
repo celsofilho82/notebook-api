@@ -21,5 +21,20 @@ describe ContactsController, type: :controller do
     get :index
     expect(response).to have_http_status(406)   
   end
+
+  it "GET /contacts/:id" do
+    # Fazendo uma consulta no banco e pegando o primeiro contato e armazenando na variável
+    contact = Contact.first
+    # Enviando o cabeçalho da requisição 
+    request.accept = 'application/json'
+    # Fazendo um get na action show passando o id do contato pesquisado no banco
+    get :show, params: {id: contact.id}
+    # Pegando o corpo da resposta a requisição anterior e fazendo um parse no json
+    response_body = JSON.parse(response.body)
+    # Usando os dados parseados, usando o fetch para pegar o campo data e depois o id 
+    # após comparando se o id recebido é o mesmo enviado
+    expect(response_body.fetch('data').fetch('id')).to eq(contact.id.to_s)
+  end
+  
   
 end
