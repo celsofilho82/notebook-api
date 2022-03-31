@@ -106,7 +106,8 @@ GEM
       method_source (~> 1.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    puma (3.12.4)
+    puma (4.3.12)
+      nio4r (~> 2.0)
     rack (2.2.2)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
@@ -194,7 +195,7 @@ DEPENDENCIES
   kaminari
   listen (>= 3.0.5, < 3.2)
   pry-rails
-  puma (~> 3.11)
+  puma (~> 4.3)
   rack-cors
   rails (~> 5.2.0)
   rails-i18n (~> 5.1)
